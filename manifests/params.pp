@@ -16,7 +16,7 @@ class samba::params(
           $packagesambapamwinbind = 'samba-winbind-clients'
           $packagesambaclient     = 'samba-client'
           # for now, this is not supported by Debian
-          $servivesambadc         = undef
+          $servivesambadc         = 'samba'
           $servivesmb             = 'smb'
           $servivewinbind         = 'winbind'
           $sambacmd               = '/usr/bin/samba-tool'
@@ -25,7 +25,11 @@ class samba::params(
           $sambaoptstmpl          = "${module_name}/redhat-samba.erb"
           $smbconffile            = '/etc/samba/smb.conf'
           $krbconffile            = '/etc/krb5.conf'
-          $packagepyyaml          = undef # 'PyYAML'
+          if ($facts['os']['release']['major'] >= '8') {
+            $packagepyyaml        = 'python3-pyyaml'
+          } else {
+            $packagepyyaml        = 'python2-pyyaml'
+          }
       }
       'Debian': {
           $cleanup                = 'pkill -9 smbd; pkill -9 nmbd; pkill -9 samba; rm -rf /var/run/samba; /bin/true'
