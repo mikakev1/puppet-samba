@@ -150,10 +150,11 @@ ex: domain="ad" and realm="ad.example.com"')
   }
 
   if ($::osfamily == 'RedHat' ) {
+    $version = $facts['os']['release']['major']
     yumrepo { 'samba_tranquilit':
       ensure   => 'present',
       descr    => 'TranquilIt samba repository',
-      baseurl  => 'http://samba.tranquil.it/centos8/samba-4.11.1/',
+      baseurl  => "http://samba.tranquil.it/centos${version}/samba-4.11.1/",
       gpgcheck => 1,
       gpgkey   => 'http://samba.tranquil.it/RPM-GPG-KEY-TISSAMBA-7'
     }
