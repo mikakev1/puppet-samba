@@ -149,7 +149,7 @@ ex: domain="ad" and realm="ad.example.com"')
     ensure  => 'directory',
   }
 
-  if ($::os::family == 'RedHat' ) {
+  if ($::osfamily == 'RedHat' ) {
     yumrepo { 'samba_tranquilit':
       ensure   => 'present',
       descr    => 'TranquilIt samba repository',
