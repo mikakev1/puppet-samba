@@ -157,7 +157,10 @@ ex: domain="ad" and realm="ad.example.com"')
       gpgcheck => 1,
       gpgkey   => 'http://samba.tranquil.it/RPM-GPG-KEY-TISSAMBA-7'
     }
-    Package { ['sssd-common', 'sssd-kcm']:
+    Package { 'sssd-common':
+      ensure => 'absent',
+    }
+    Package { 'sssd-kcm':
       ensure => 'absent',
     }
   }
