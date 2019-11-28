@@ -25,7 +25,7 @@ class samba::params(
           $sambaoptstmpl          = "${module_name}/redhat-samba.erb"
           $smbconffile            = '/etc/samba/smb.conf'
           $krbconffile            = '/etc/krb5.conf'
-          $packagepyyaml          = 'PyYAML'
+          $packagepyyaml          = undef # 'PyYAML'
       }
       'Debian': {
           $cleanup                = 'pkill -9 smbd; pkill -9 nmbd; pkill -9 samba; rm -rf /var/run/samba; /bin/true'
