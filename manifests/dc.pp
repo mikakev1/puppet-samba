@@ -149,23 +149,6 @@ ex: domain="ad" and realm="ad.example.com"')
     ensure  => 'directory',
   }
 
-  if ($::osfamily == 'RedHat' ) {
-    $version = $facts['os']['release']['major']
-    yumrepo { 'samba_tranquilit':
-      ensure   => 'present',
-      descr    => 'TranquilIt samba repository',
-      baseurl  => "http://samba.tranquil.it/centos${version}/samba-4.11.1/",
-      gpgcheck => 1,
-      gpgkey   => 'http://samba.tranquil.it/RPM-GPG-KEY-TISSAMBA-7'
-    }
-    -> Package { 'sssd-common':
-      ensure => 'purged',
-    }
-    -> Package { 'sssd-kcm':
-      ensure => 'purged',
-    }
-  }
-
   file { '/etc/samba/smb_path':
     ensure  => 'present',
     content => $::samba::params::smbconffile,

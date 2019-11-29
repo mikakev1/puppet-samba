@@ -1,10 +1,27 @@
 # default parameters
 
 class samba::params(
-  Boolean $sernetpkgs = false,
+  Boolean $tranquilitpackages = false,
+  String  $packagesversion = '4.11.1',
 ){
-  if $sernetpkgs {
-    fail('sernetpkgs is not supported anymore as these packages are EOL')
+  if $tranquilitpackages {
+    if ($facts['os']['family'] == 'redhat') {
+    $version = $facts['os']['release']['major']
+    yumrepo { 'samba_tranquilit':
+      ensure   => 'present',
+      descr    => 'TranquilIt samba repository',
+      baseurl  => "http://samba.tranquil.it/centos${version}/samba-${packagesversion}/",
+      gpgcheck => 1,
+      gpgkey   => 'http://samba.tranquil.it/RPM-GPG-KEY-TISSAMBA-7'
+    }
+    -> Package { 'sssd-kcm':
+      ensure => 'purged',
+    }
+    -> Package { 'sssd-common':
+      ensure => 'purged',
+    }
+  }
+
   }else{
     case $facts['os']['family'] {
       'redhat': {
