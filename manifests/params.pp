@@ -4,24 +4,26 @@ class samba::params(
   Boolean $tranquilitpackages = false,
   String  $packagesversion = '4.11.1',
 ){
+
   if $tranquilitpackages {
     if ($facts['os']['family'] == 'redhat') {
-    $version = $facts['os']['release']['major']
-    yumrepo { 'samba_tranquilit':
-      ensure   => 'present',
-      descr    => 'TranquilIt samba repository',
-      baseurl  => "http://samba.tranquil.it/centos${version}/samba-${packagesversion}/",
-      gpgcheck => 1,
-      gpgkey   => 'http://samba.tranquil.it/RPM-GPG-KEY-TISSAMBA-7'
-    }
-    -> Package { 'sssd-kcm':
-      ensure => 'purged',
-    }
-    -> Package { 'sssd-common':
-      ensure => 'purged',
+      $version = $facts['os']['release']['major']
+      yumrepo { 'samba_tranquilit':
+        ensure   => 'present',
+        descr    => 'TranquilIt samba repository',
+        baseurl  => "http://samba.tranquil.it/centos${version}/samba-${packagesversion}/",
+        gpgcheck => 1,
+        gpgkey   => 'http://samba.tranquil.it/RPM-GPG-KEY-TISSAMBA-7'
+      }
+      -> Package { 'sssd-kcm':
+        ensure => 'purged',
+      }
+      -> Package { 'sssd-common':
+        ensure => 'purged',
+      }
     }
   }
-  }
+
   case $facts['os']['family'] {
       'redhat': {
           $cleanup                = undef
@@ -93,9 +95,9 @@ class samba::params(
       }
       default: {
           fail('unsupported os')
-      }
     }
   }
+
 
   $sambaaddtool     = '/usr/local/bin/additional-samba-tool'
   $nsswitchconffile = '/etc/nsswitch.conf'
@@ -107,5 +109,5 @@ class samba::params(
     'winbind', 'vfs',     'idmap',        'quota',    'acls',
     'locking', 'msdfs',   'dmapi',        'registry', 'rpc_parse',
     ]
-
+}
 # vim: tabstop=8 expandtab shiftwidth=2 softtabstop=2
