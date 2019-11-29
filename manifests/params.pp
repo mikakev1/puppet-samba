@@ -21,9 +21,8 @@ class samba::params(
       ensure => 'purged',
     }
   }
-
-  }else{
-    case $facts['os']['family'] {
+  }
+  case $facts['os']['family'] {
       'redhat': {
           $cleanup                = undef
           $packagesambadc         = 'samba-dc'
