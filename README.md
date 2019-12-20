@@ -1,4 +1,5 @@
 # puppet-samba
+
 [![Build Status](https://travis-ci.org/kakwa/puppet-samba.svg)](https://travis-ci.org/kakwa/puppet-samba)
 [![Downloads](https://img.shields.io/puppetforge/dt/kakwa/samba.svg)](https://forge.puppetlabs.com/kakwa/samba)
 [![Score](https://img.shields.io/puppetforge/f/kakwa/samba.svg)](https://forge.puppetlabs.com/kakwa/samba/scores)
@@ -82,6 +83,14 @@ Look at the [examples](https://github.com/kakwa/puppet-samba/tree/master/example
 To provision the domain controller use the *samba::dc* class:
 
 ```puppet
+
+# You need to setup samba::params with tranquilitpackages on Redhat's derivative, to allow samba::dc management.
+
+class { 'samba::params':
+      tranquilitpackages => true,
+}
+
+
 class { ::samba::dc:
   # Mandatory parameters
   domain                => 'ad',              # * AD domain name
@@ -158,10 +167,10 @@ Use the following commands to list available options for your samba version
 
 ```bash
 # List available options:
-$ samba-tool domain passwordsettings --help
+samba-tool domain passwordsettings --help
 
 # List available string_show:
-$ samba-tool domain passwordsettings show
+samba-tool domain passwordsettings show
 ```
 
 #### Logon Scripts
@@ -382,11 +391,11 @@ class { '::samba::classic':
   path            => '/srv/test/',
   
   # Optionnal parameters
-  manage_directory  => true,        # * let the resource handle the shared 
+  manage_directory  => true,        # * let the resource handle the shared
                                     #   directory creation (default: true)
   owner             => 'root',      # * owner of the share directory
                                     #   (default: root)
-  group             => 'root',      # * group of the share directory 
+  group             => 'root',      # * group of the share directory
                                     #   (default: root)
   mode              => '0775',      # * mode of the share directory
                                     #   (default: 0777)
@@ -473,7 +482,6 @@ Contribution must not raise errors from puppet-lint.
 
 ## Release Notes
 
-
 2.0.0:
 
 * drop support for puppet < 4.0.0
@@ -499,82 +507,82 @@ Contribution must not raise errors from puppet-lint.
 
 0.8.0:
 
- * fix absentoptions handling in share definition
- * fix add missing package libnss-winbind/samba-winbind-clients (thanks to Chris Roberts)
- * add support for pam configuration (thanks to Chris Roberts)
+* fix absentoptions handling in share definition
+* fix add missing package libnss-winbind/samba-winbind-clients (thanks to Chris Roberts)
+* add support for pam configuration (thanks to Chris Roberts)
 
 0.7.5:
 
- * fix non determistic log setup with ruby <= 1.8 (Thanks to m4xp0w4)
+* fix non determistic log setup with ruby <= 1.8 (Thanks to m4xp0w4)
 
 0.7.4:
 
- * fix dependency error if manage_winbind is false
- * add possibility to configure multiples realms in krb5.conf (Thanks to Jan-Otto Kröpke)
- * add some test scripts and scenarii
+* fix dependency error if manage_winbind is false
+* add possibility to configure multiples realms in krb5.conf (Thanks to Jan-Otto Kröpke)
+* add some test scripts and scenarii
 
 0.7.3:
 
- * fix dc deployment on Debian (needed cleaning of the /var/run/samba directory)
- * add ```force_password``` parameter to ```smb_user``` resource to only set password at creation and not touch it after
+* fix dc deployment on Debian (needed cleaning of the /var/run/samba directory)
+* add ```force_password``` parameter to ```smb_user``` resource to only set password at creation and not touch it after
 
 0.7.2:
 
- * add switch join_domain to enable/disable Domain Join in classic class (Thanks to Mattias Giese)
- * add switch manage_winbind to enable/disable winbind service in classic class (Thanks to Mattias Giese)
+* add switch join_domain to enable/disable Domain Join in classic class (Thanks to Mattias Giese)
+* add switch manage_winbind to enable/disable winbind service in classic class (Thanks to Mattias Giese)
 
 0.7.1:
 
- * fix templates (thanks to Michael Sweetser)
+* fix templates (thanks to Michael Sweetser)
 
 0.7.0:
 
- * add parameter to pass additionnal parameters for domain provisioning 
+* add parameter to pass additionnal parameters for domain provisioning
 
 0.6.2:
 
- * fix daemon name on Debian versions >=8 
+* fix daemon name on Debian versions >=8
 
 0.6.1:
- * fix documentation
+* fix documentation
 
 0.6.0:
- * add support for Ubuntu
- * fix for puppet 4
+* add support for Ubuntu
+* fix for puppet 4
 
 0.5.0:
- * add optional parameter joinou in class classic to specify the OU in AD where the samba server must be declared
- * add optional parameter strictrealm to enable/disable strict realm check
+* add optional parameter joinou in class classic to specify the OU in AD where the samba server must be declared
+* add optional parameter strictrealm to enable/disable strict realm check
 
 0.4.0:
- * add manage_directory parameter to samba::share in order to
+* add manage_directory parameter to samba::share in order to
  make directory creation optional (useful for print server)
 
 0.3.1:
- * fix namespace collision between puppetlabs-inifile and smb_file resource
- * add examples
+* fix namespace collision between puppetlabs-inifile and smb_file resource
+* add examples
 
 0.3.0:
- * remove useless --workgroup option in DC provisioning
- * add type ppolicy_param to set individual ppolicy parameters
- * fix ppolicy class to be more robust to version changes
+* remove useless --workgroup option in DC provisioning
+* add type ppolicy_param to set individual ppolicy parameters
+* fix ppolicy class to be more robust to version changes
 
 0.2.0:
- * add parameter adminuser for class **samba::classic**
+* add parameter adminuser for class **samba::classic**
    default value (administrator) maintains the previous behaviour
 
 0.1.2:
 
- * Better summary in metadata.json
+* Better summary in metadata.json
 
 0.1.1:
 
- * Better tags in metadata.json
- * Better documentation
+* Better tags in metadata.json
+* Better documentation
 
 0.1.0:
 
- * first release
+* first release
 
 ## External licenses
 
